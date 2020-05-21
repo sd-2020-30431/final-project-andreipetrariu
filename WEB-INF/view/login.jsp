@@ -8,7 +8,7 @@
         <title>Online Library</title>
        <link href="${pageContext.request.contextPath}/resources/styles.css" rel="stylesheet" />
     </head>
-    <body>
+    <body id="login">
         <div class="login-content">
             <div class="login-panel">
                 <div class="login-box">
@@ -31,6 +31,7 @@
                   		<input type="submit" name="login" value="     Login     "/>
                   		&nbsp &nbsp &nbsp &nbsp &nbsp
                   		<input type="submit" name="login" value="     Register     "/>
+                  		<br><br>
                   	</form:form>
                </div>
             </div>

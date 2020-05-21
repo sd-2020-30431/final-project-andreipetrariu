@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <html>
     <head>
         <meta charset="utf-8" />
@@ -8,134 +11,108 @@
     
     </head>
     <body>
+    <div class="password-form">
+    	   <span class="close-password-form" style="right:100px;" onclick="closePasswordForm()">&times;</span>
+    	   <form:form method="post" id="passwordForm" action="changePass?user=${username}" modelAttribute="password"  enctype="multipart/form-data" style="min-width:200px;width:22%;min-height:200px;height:20%;">
+    	   		<div class="login-field" style="padding-top:8px;">Old password</div>
+    	   		<form:errors path="oldPassword" cssClass="error-msg"/>
+    	   		<form:password path="oldPassword" style="width:100%;"/>
+    	   		<div class="login-field" style="padding-top:8px;">New password</div>
+    	   		<form:errors path="newPassword" cssClass="error-msg"/>
+    	   		<form:password path="newPassword" style="width:100%;"/>
+                <div><button class="post-button" type="submit" style="margin-top:20px;">Change</button></div>
+           </form:form>
+    	</div>
         <div class="content">
             <div class="menu">
                 <div class="menu-icon">
                     <div class="icon">
-                        <a href=""><img src="bluebook.png" alt="icon"></a>
+                        <a href=""><img src="${pageContext.request.contextPath}/resources/bluebook.png" alt="icon"></a>
                     </div>
                     <div class="title">
                         Online Library
                     </div>
                 </div>
                 <div class="menu-links">
+                	Welcome, ${username}
                     <div class="menu-link">
-                        <a href="">Home</a>
+                        <a href="home?user=${username}">Home</a>
                     </div>
                     <div class="menu-link">
-                        <a href="mybooks.html">My Books</a>
+                        <a href="profile?user=${username}">My Books</a>
                     </div>
                     <div class="settings-dropdown">
-                        <img src="gear-2.png" onclick="showSettings()"></img>
+                        <img src="${pageContext.request.contextPath}/resources/gear-2.png" onclick="showSettings()"></img>
                         <div id="settings-option1" class="settings-dropdown-content">
-                          <a href="#">Change password</a>
-                          <a href="#">Logout</a>
+                          <a onclick="showPasswordForm()">Change password</a>
+                          <a href="logout?user=${username}">Logout</a>
                         </div>
                       </div> 
                 </div>
             </div>
-        </div>
         <div class="home-background">
             <div class="home-content">
                 <div class="categories">
                   <a style="padding-bottom:20px; font-size:1.0em;">Categories</a>
-                    <a href="#recent" class="category" onclick="getBookshelf('recent')">Recent books</a>
-                    <button class="category-btn">Fictional
+                    <a href="home?user=${username}&category=recent" recent" class="category" onclick="getBookshelf('recent')">Recent books</a>
+                    <button class="category-btn" id="fictionalBtn" onclick="openCategory('fictionalBtn')")>Fictional
                         <i class="btn-caret-down"></i>
                       </button>
                       <div class="subcategory">
-                        <a href="#Aua" onclick="getBookshelf('Aua')">Aua</a>
-                        <a href="#">Baua</a>
-                        <a href="#">Caua</a>
+                        <a href="home?user=${username}&category=adventure">Adventure</a>
+                        <a href="home?user=${username}&category=detective">Detective</a>
+                        <a href="home?user=${username}&category=realism">Realism</a>
+                        <a href="home?user=${username}&category=historical">Historical</a>
+                        <a href="home?user=${username}&category=scifi">Science Fiction</a>
+                        <a href="home?user=${username}&category=myth">Myth</a>
+                        <a href="home?user=${username}&category=fantasy">Fantasy</a>
+                        <a href="home?user=${username}&category=comics">Comics</a>
+                        <a href="home?user=${username}&category=fable">Fable</a>
+                        <a href="home?user=${username}&category=romance">Romance</a>
+                        <a href="home?user=${username}&category=horror">Horror</a>
+                        <a href="home?user=${username}&category=poetry">Poetry</a>
+                        <a href="home?user=${username}&category=drama">Drama</a>
                       </div>
-                    <button class="category-btn">Non-Fictional
+                    <button class="category-btn" id="nonFictionalBtn" onclick="openCategory('nonFictionalBtn')">Non-Fictional
                         <i class="btn-caret-down"></i>
                     </button>
                     <div class="subcategory">
-                        <a href="#">Ana</a>
-                        <a href="#">Bana</a>
-                        <a href="#">Cana</a>
+                        <a href="home?user=${username}&category=biography" >Biography</a>
+                        <a href="home?user=${username}&category=tech" >Technology</a>
+                        <a href="home?user=${username}&category=business">Business</a>
+                        <a href="home?user=${username}&category=religion" >Religion</a>
+                        <a href="home?user=${username}&category=history" >History</a>
+                        <a href="home?user=${username}&category=law" >Law</a>
+                        <a href="home?user=${username}&category=education" >Education</a>
+                        <a href="home?user=${username}&category=selfhelp" >Self-help</a>
+                        <a href="home?user=${username}&category=cookbooks" >Cookbooks</a>
+                        <a href="home?user=${username}&category=encyclopedia" >Encyclopedia</a>
+                        <a href="home?user=${username}&category=catalogs">Catalogs</a>
+                        <a href="home?user=${username}&category=guides">Guides</a>
                       </div>
                 </div>
                 <div class="library">
                   <div id="section" style="font-family: Avenir;font-size:1.0em; text-align:center">
-                    Recent books
+                    ${section}
                   </div>
                   <div class="bookshelf">
-                    <div class="book">aaaaaaaaaaa</div>
-                    <div class="book">aaaaaaaaaaa</div>
-                    <div class="book">aaaaaaaaaaa</div>
-                    <div class="book">aaaaaaaaaaa</div>
-                    <div class="book">aaaaaaaaaaa</div>
-                    <div class="book">aaaaaaaaaaa</div>
-                    <div class="book">aaaaaaaaaaa</div>
-                    <div class="book">aaaaaaaaaaa</div>
-                    <div class="book">aaaaaaaaaaa</div>
-                    <div class="book">aaaaaaaaaaa</div>
-                    <div class="book">aaaaaaaaaaa</div>
-                    <div class="book">aaaaaaaaaaa</div>
-                    <div class="book">aaaaaaaaaaa</div>
-                    <div class="book">aaaaaaaaaaa</div>
-                    <div class="book">aaaaaaaaaaa</div>
-                    <div class="book">aaaaaaaaaaa</div>
-                    <div class="book">aaaaaaaaaaa</div>
-                    <div class="book">aaaaaaaaaaa</div>
-                    <div class="book">aaaaaaaaaaa</div>
-                    <div class="book">aaaaaaaaaaa</div>
-                    <div class="book">aaaaaaaaaaa</div>
-                    <div class="book">aaaaaaaaaaa</div>
-                    <div class="book">aaaaaaaaaaa</div>
-                    <div class="book">aaaaaaaaaaa</div>
-                    <div class="book">aaaaaaaaaaa</div>
+                    <c:forEach items="${books}" var="item">
+    					<div class="book" onclick="window.location='book?user=${username}&id=${item.getId()}';">
+    						<div class="book-thumbnail">
+    							<img src="${pageContext.request.contextPath}/resources/default_cover.jpg"></img>
+            					${item.getBookName()}
+            				</div>
+            				<div class="book-feedback">
+            					${item.getLikes() }, ${item.getDislikes()}
+            				</div>
+            			</div>
+					</c:forEach>        
                   </div>
                 </div>
             </div>
             <br><br><br><br><br><br><br><br>
         </div>
+        </div>
     </body>
 </html>
 
-
-<script>
-    // When the user clicks on <div>, open the popup
-function showSettings() {
-  var popup = document.getElementById("settings-option1");
-  popup.classList.toggle("show");
-}
-window.onclick = function(event) {
-  if (!event.target.matches('.settings-dropdown img')) {
-    var dropdowns = document.getElementsByClassName("settings-dropdown");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
-      }
-    }
-  }
-} 
-var dropdown = document.getElementsByClassName("category-btn");
-var i;
-
-for (i = 0; i < dropdown.length; i++) {
-  dropdown[i].addEventListener("click", function() {
-  this.classList.toggle("category-btn-active");
-  var dropdownContent = this.nextElementSibling;
-  if (dropdownContent.style.display === "block") {
-  dropdownContent.style.display = "none";
-  } 
-  else {
-  dropdownContent.style.display = "block";
-  }
-  });
-}
-
-function getBookshelf(type) {
-  switch(type) {
-    case "recent": document.getElementById("section").innerHTML = "Recent books";break;
-    case "Aua":document.getElementById("section").innerHTML = "Aua";break;  
-  }
-
-}
-
-</script>
