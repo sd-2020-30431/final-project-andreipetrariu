@@ -21,9 +21,20 @@ public class UserDAO implements IUserDAO{
 	
 	@Override
 	@Transactional
-	public User readUser(String username, String password) {
+	public boolean checkPassword(String username,String password) {
 		Session session = sessionFactory.getCurrentSession();
-		Query query = session.createQuery("from User u where u.username=:username and u.password=:password").setParameter("username", username).setParameter("password",password);
+		Query query = session.createQuery("from User u where u.username=:username").setParameter("username", username);
+		User user = (User) query.getResultList().get(0);
+		if(user.getPassword().compareTo(password)==0)
+			return true;
+		return false;
+	}
+	
+	@Override
+	@Transactional
+	public User readOfflineUser(String username, String password) {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery("from User u where u.username=:username and u.password=:password and status=0").setParameter("username", username).setParameter("password",password);
 		User theUser;
 		try{
 			theUser = (User) query.getResultList().get(0);
@@ -43,9 +54,26 @@ public class UserDAO implements IUserDAO{
 	
 	@Override
 	@Transactional
-	public void updateStatus(String username) {
+	public void updateStatus(String username,int status) {
 		Session session = sessionFactory.getCurrentSession();
-		Query query = session.createQuery("update User u set u.status=1 where u.username = :username").setParameter("username", username);
+		Query query = session.createQuery("update User u set u.status=:status where u.username = :username").setParameter("status", status).setParameter("username", username);
+		query.executeUpdate();
+	}
+
+	@Override
+	@Transactional
+	public int readUserId(String username) {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery("from User u where u.username=:username").setParameter("username", username);
+		User result = (User) query.getResultList().get(0);
+		return result.getId();
+	}
+
+	@Override
+	@Transactional
+	public void updatePassword(String username, String newPassword) {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery("update User u set u.password = :pass where u.username=:username").setParameter("pass", newPassword).setParameter("username",username);
 		query.executeUpdate();
 	}
 
