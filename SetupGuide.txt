@@ -1,0 +1,18 @@
+This is a guide for setting up the Online Library web application.
+
+1) Run the mysql script file 'onlinelibrary_db.sql' to import the database and row values.
+
+2) In Eclipse, go to File -> New -> Project. Go to Web and select 'Dynamic Web Project'.
+
+3) Convert the project to a maven project (Right-click project folder -> Configure -> Convert to Maven Project.
+
+4) Copy-paste the src in the project folder and the META-INF, WEB-INF and resources folders in the WebContent folder.
+Copy-paste the pom.xml file in the project's folder as well and do a maven update(Right-click
+project -> Maven -> Update Project, check 'Force Update of Snapshots/Releases" and ok. Make sure the src folder is in
+the project source's build path. (Go to the project -> configure build path, in the Source tab).
+(If the java files have errors, mouse over the error and set the java compliance to 1.8).
+
+5) Add a server to the project.
+
+6) Run the project on server. If the login fails, open mysql, open the users table and set the status value of the 
+user you are loggin with to 0.
